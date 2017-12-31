@@ -151,7 +151,11 @@ Trader.prototype.getPortfolio = function(callback) {
       { name: this.currency, amount: currencyAmount },
     ];
 
-    return callback(err.message, portfolio);
+    if (err && err.message) {
+      return callback(err.message,portfolio);
+    } else {
+      return callback('', portfolio);
+    }
   };
 
   this.binance.account({}, _.bind(setBalance, this));
@@ -190,7 +194,7 @@ Trader.prototype.getTicker = function(callback) {
       bid: parseFloat(result.bidPrice),
     };
 
-    if (err || err.message) {
+    if (err && err.message) {
       callback(err.message, ticker);
     } else {
       callback('', ticker);
