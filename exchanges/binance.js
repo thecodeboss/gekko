@@ -164,7 +164,7 @@ Trader.prototype.getFee = function(callback) {
 };
 
 Trader.prototype.getTicker = function(callback) {
-  var setTicker = function(err, data) {
+  var getTicker = function(err, data) {
     log.debug(
       '[binance.js] entering "getTicker" callback after api call, err:',
       err,
@@ -190,13 +190,17 @@ Trader.prototype.getTicker = function(callback) {
       bid: parseFloat(result.bidPrice),
     };
 
-    callback(err.message, ticker);
+    if (err || err.message) {
+      callback(err.message, ticker);
+    } else {
+      callback('', ticker);
+    }
   };
 
   // Not exposed by the API yet, have to do it the hard way
   this.binance._makeRequest(
     {},
-    _.bind(setTicker, this),
+    _.bind(getTicker, this),
     'ticker/allBookTickers'
   );
 };
