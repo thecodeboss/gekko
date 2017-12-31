@@ -32,7 +32,7 @@ var recoverableErrors = new RegExp(
 );
 
 Trader.prototype.retry = function(method, args, error) {
-  if (!error || !error.message.match(recoverableErrors)) {
+  if (!error || !error.message || !error.message.match(recoverableErrors)) {
     log.error('[binance.js] ', this.name, 'returned an irrecoverable error');
     return;
   }

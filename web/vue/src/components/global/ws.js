@@ -32,7 +32,7 @@ export const connect = () => {
       initializeState();
       bus.$emit('WS_STATUS_CHANGE', info);
     }
-  }, 500);
+  }, 5000);
 
   socket.onopen = () => {
     if(info.connected)
