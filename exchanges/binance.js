@@ -152,7 +152,7 @@ Trader.prototype.getPortfolio = function(callback) {
     ];
 
     if (err && err.message) {
-      return callback(err.message,portfolio);
+      return callback(err.message, portfolio);
     } else {
       return callback('', portfolio);
     }
@@ -347,7 +347,11 @@ Trader.prototype.checkOrder = function(order, callback) {
 
     var stillThere =
       data.status === 'NEW' || data.status === 'PARTIALLY_FILLED';
-    callback(err.message, !stillThere);
+    if (err && err.message) {
+      callback(err.message, !stillThere);
+    } else {
+      callback('', !stillThere);
+    }
   };
 
   this.binance.queryOrder(
