@@ -465,7 +465,7 @@ Trader.getCapabilities = function() {
       {
         pair: ['BTC', 'XRP'],
         minimalOrder: { amount: 1.0, unit: 'asset' },
-        precision: 0.000001,
+        precision: 0.00000001,
       },
       {
         pair: ['BTC', 'ZEC'],
