@@ -21,16 +21,22 @@ var fetch = () => {
   fetcher.getTrades(from, handleFetch);
 };
 
-var handleFetch = (unk, trades) => {
+var handleFetch = (err, trades) => {
+  if (err) {
+    log.error(`There was an error importing from Binance ${err}`);
+    fetcher.emit('done');
+    return fetcher.emit('trades', []);
+}
+
   if (trades.length > 0) {
     var last = moment.unix(_.last(trades).date).utc();
-    var next = last.clone();
+    var next = from.clone().add(1, 'h');
   } else {
-    var next = from.clone().add(1, 'd');
-    log.debug('Import step returned no results, moving to the next 24h period');
+    var next = from.clone().add(1, 'h');
+    log.debug('Import step returned no results, moving to the next 1h period');
   }
 
-  if (from.add(1, 'd') >= end) {
+  if (from.add(1, 'h') >= end) {
     fetcher.emit('done');
 
     var endUnix = end.unix();
